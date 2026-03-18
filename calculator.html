@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ultra Result Calculator</title>
+
+<style>
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:Segoe UI;
+background:#0f0f0f;
+color:white;
+transition:.4s;
+}
+
+.light{
+background:#f4f4f4;
+color:black;
+}
+
+.container{
+width:360px;
+padding:30px;
+border-radius:25px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(20px);
+box-shadow:0 0 25px rgba(255,0,80,.3);
+text-align:center;
+animation:fade 1s;
+}
+
+h1{
+margin-bottom:15px;
+}
+
+input{
+width:100%;
+padding:14px;
+margin:8px 0;
+border:none;
+border-radius:12px;
+background:rgba(255,255,255,0.12);
+color:white;
+font-size:15px;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:12px;
+border:none;
+border-radius:15px;
+background:linear-gradient(45deg,#ff416c,#ff4b2b);
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.toggle{
+margin-top:10px;
+cursor:pointer;
+font-size:14px;
+opacity:.7;
+}
+
+.resultCard{
+margin-top:20px;
+padding:20px;
+border-radius:20px;
+background:rgba(255,255,255,0.08);
+box-shadow:0 0 20px rgba(0,255,200,.4);
+}
+
+.circle{
+width:120px;
+height:120px;
+border-radius:50%;
+background:conic-gradient(#00ffc8 0deg,#333 0deg);
+display:flex;
+justify-content:center;
+align-items:center;
+margin:10px auto;
+font-size:22px;
+font-weight:bold;
+}
+
+@keyframes fade{
+from{opacity:0; transform:translateY(30px);}
+to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Result Calculator</h1>
+
+<input type="number" id="s1" placeholder="Subject 1">
+<input type="number" id="s2" placeholder="Subject 2">
+<input type="number" id="s3" placeholder="Subject 3">
+<input type="number" id="s4" placeholder="Subject 4">
+<input type="number" id="s5" placeholder="Subject 5">
+
+<button onclick="calc()">Calculate Result</button>
+
+<div class="resultCard" id="card" style="display:none">
+
+<div class="circle" id="circle">0%</div>
+
+<div id="text"></div>
+
+</div>
+
+</div>
+
+<audio id="passSound" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3"></audio>
+<audio id="failSound" src="https://assets.mixkit.co/active_storage/sfx/2053/2053-preview.mp3"></audio>
+
+<script>
+
+function calc(){
+
+let m1=Number(s1.value)||0;
+let m2=Number(s2.value)||0;
+let m3=Number(s3.value)||0;
+let m4=Number(s4.value)||0;
+let m5=Number(s5.value)||0;
+
+let total=m1+m2+m3+m4+m5;
+let percent=total/5;
+
+let grade,color;
+
+if(percent>=90){grade="A"; color="#00ffc8";}
+else if(percent>=80){grade="B"; color="#00ccff";}
+else if(percent>=70){grade="C"; color="#ffd700";}
+else if(percent>=60){grade="D"; color="#ff914d";}
+else if(percent>=50){grade="E"; color="#ff6f61";}
+else{grade="F"; color="#ff2e2e";}
+
+card.style.display="block";
+
+circle.style.background=
+"conic-gradient("+color+" "+percent*3.6+"deg,#333 0deg)";
+
+circle.innerHTML=percent.toFixed(1)+"%";
+
+text.innerHTML=
+"<h2 style='color:"+color+"'>Grade "+grade+"</h2>"+
+"<p>Total Marks "+total+"</p>";
+
+if(percent>=50) passSound.play();
+else failSound.play();
+
+}
+
+function mode(){
+document.body.classList.toggle("light");
+}
+
+</script>
+
+</body>
+</html>
